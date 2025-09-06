@@ -1,27 +1,27 @@
+// acceso a elementos HTML
+const btnSortear = document.getElementsByClassName("button-draw");
+const btnAgregarAmigo = document.getElementsByClassName("button-add");
 
-var btnSortear = document.getElementsByClassName("button-draw");
-var btnAgregarAmigo = document.getElementsByClassName("button-add");
-
-var listaAgregarAmigos = document.getElementById("listaAmigos");
-var listaMostrarAmigoSecreto = document.getElementById("resultado");
-var campoIngresarAmigo = document.getElementById("amigo")
-
-var  sorteadoRealizado=false;
-
-var cantidadAmigos;
+const listaAgregarAmigos = document.getElementById("listaAmigos");
+const listaMostrarAmigoSecreto = document.getElementById("resultado");
+const campoIngresarAmigo = document.getElementById("amigo")
 
 let nombres = [];
 
+let  sorteadoRealizado=false;
+let  cantidadAmigos;
 
 function agregarAmigo() {
 
 
     amigo = campoIngresarAmigo.value;
+
     if (amigo ==="") {
         alert("El campo no puede estar vacio")
         return;
 
     }
+    // Reniciar el juego si el usuario añade un nuevo amigo, posterior a realizar un sorteo
 
     if(sorteadoRealizado){
 
@@ -31,13 +31,8 @@ function agregarAmigo() {
         sorteadoRealizado = false;
         alert("Renicio")
     }
-
-   
-    // si el nombre no se repite, se puede agregar amigos
-    
-    if(!nombres.includes(amigo)){
-        // agregamos el amigo
-        
+    // Evita añadir nombres antes ingresados (repetidos)
+    if (!nombres.includes(amigo)) {
 
         cantidadAmigos = cantidadAmigos + 1;
         let nuevoAmigo = document.createElement("li");
@@ -46,16 +41,11 @@ function agregarAmigo() {
 
         // guardamos en el nombre
         nombres.push(amigo);
-        // guardamos la cantidad
-        cantidadAmigos=nombres.length;
-
-        // limpiamos el campo
-        
-
+        cantidadAmigos = nombres.length;
         campoIngresarAmigo.value = "";
 
-      
-    }else{
+
+    } else {
 
         alert("Ese nombre ya esta agregado");
         campoIngresarAmigo.value = "";
@@ -63,6 +53,7 @@ function agregarAmigo() {
     }
 
 }
+// genera un numero entre 0 y el tamaño del array nombres
 
 function numeroAleatorio() {
     let amigoIndice = Math.floor(Math.random() * cantidadAmigos);
@@ -71,15 +62,17 @@ function numeroAleatorio() {
 }
 
 function sortearAmigo() {
+    // en base a la cantidad de amigos agregados
+
     if (cantidadAmigos == 0) {
-        // solo agrego a un amigo
+       
         let ganador = document.createElement("li");
         ganador.textContent = `TU AMIGO ES: ${nombres[0]}`;
         listaMostrarAmigoSecreto.appendChild(ganador);
 
-    } // agrego a almenos 2 amigos
+    } 
     else {
-        // generamos un indice entre 0 y cantidadAmigos, quien representa en orden de entrada a un amigo (indice), en el array nombres[]
+        
         let indiceAmigo = numeroAleatorio(cantidadAmigos);
         console.log(indiceAmigo)
         amigo = nombres[indiceAmigo];
@@ -89,7 +82,6 @@ function sortearAmigo() {
         ganador.textContent = `TU AMIGO SECRETO ES: ${amigo}`;
         listaMostrarAmigoSecreto.appendChild(ganador);
 
-        // sorteo realizado  una vez
         sorteadoRealizado=true;
     }
 
